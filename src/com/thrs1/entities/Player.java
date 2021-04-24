@@ -3,7 +3,10 @@ package com.thrs1.entities;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
+
 import com.thrs1.main.Game;
+import com.thrs1.world.Camera;
+import com.thrs1.world.World;
 
 
 
@@ -12,7 +15,7 @@ public class Player extends Entity {
 	public boolean right,left,up,down;
 	public int dir_right = 0,dir_left = 1;
 	public int dir = dir_right;
-	public double speed = 1.5;
+	public double speed = 3;
 	
 	private boolean moved = false;
 	
@@ -64,14 +67,16 @@ public class Player extends Entity {
 					index = 0;
 				}
 			}
+			Camera.x = Camera.clamp(this.getX() - (Game.WIDTH/2), 0, World.WIDTH*32 - Game.WIDTH);
+			Camera.y = Camera.clamp(this.getY() - (Game.HEIGHT/2), 0, World.HEIGHT*32 - Game.HEIGHT);
 		}
 		
 	}
 	public void render(Graphics g) {
 		if(dir == dir_right) {
-		g.drawImage(rightPlayer[index], this.getX(), this.getY(), null);
+			 g.drawImage(rightPlayer[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
 		}else if(dir == dir_left) {
-			g.drawImage(leftPlayer[index], this.getX(), this.getY(), null);
+			 g.drawImage(leftPlayer[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
 		}
 	}
 
